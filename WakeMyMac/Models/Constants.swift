@@ -14,5 +14,13 @@
 
 import Foundation
 
-
-WakeMyMac.main()
+enum Constants: String {
+    case wakeSession
+    case wakeConfig
+    
+    // Logger
+    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
+    case loggerCategory = "main"
+    
+    var value: String { rawValue }
+}

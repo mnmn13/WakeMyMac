@@ -13,6 +13,9 @@
 // limitations under the License.
 
 import Foundation
+import OSLog
 
-
-WakeMyMac.main()
+// MARK: - Global Logger
+/// A global logger for the application.
+/// Subsystem and category are used to organize log entries.
+let logger = Logger(subsystem: Constants.loggerSubsystem.value, category: Constants.loggerCategory.value)

@@ -13,6 +13,18 @@
 // limitations under the License.
 
 import Foundation
+import ArgumentParser
 
 
-WakeMyMac.main()
+struct WakeMyMac: ParsableCommand {
+    
+//    static let configuration = CommandConfiguration(abstract: "Prevent your macOS device from sleeping with advanced scheduling and configuration options.",
+//                                                    subcommands: <#T##[any ParsableCommand.Type]#>,
+//                                                    defaultSubcommand: <#T##(any ParsableCommand.Type)?#>)
+//    
+//    
+//    
+//    func run() throws {
+//        <#code#>
+//    }
+}

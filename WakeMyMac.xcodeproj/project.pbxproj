@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AD83058B2D38485E00BF3477 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = AD83058A2D38485E00BF3477 /* ArgumentParser */; };
+		AD83058D2D38485E00BF3477 /* generate-manual in Frameworks */ = {isa = PBXBuildFile; productRef = AD83058C2D38485E00BF3477 /* generate-manual */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		AD83057D2D38412900BF3477 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -35,6 +40,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD83058B2D38485E00BF3477 /* ArgumentParser in Frameworks */,
+				AD83058D2D38485E00BF3477 /* generate-manual in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +84,8 @@
 			);
 			name = WakeMyMac;
 			packageProductDependencies = (
+				AD83058A2D38485E00BF3477 /* ArgumentParser */,
+				AD83058C2D38485E00BF3477 /* generate-manual */,
 			);
 			productName = WakeMyMac;
 			productReference = AD83057F2D38412900BF3477 /* WakeMyMac */;
@@ -106,6 +115,9 @@
 			);
 			mainGroup = AD8305762D38412900BF3477;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AD8305802D38412900BF3477 /* Products */;
 			projectDirPath = "";
@@ -289,6 +301,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD83058A2D38485E00BF3477 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+		AD83058C2D38485E00BF3477 /* generate-manual */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = "generate-manual";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD8305772D38412900BF3477 /* Project object */;
 }

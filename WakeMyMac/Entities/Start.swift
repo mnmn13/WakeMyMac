@@ -13,6 +13,16 @@
 // limitations under the License.
 
 import Foundation
+import ArgumentParser
 
-
-WakeMyMac.main()
+struct Start: ParsableCommand {
+    static var configuration = CommandConfiguration(abstract: "Start a wake session.")
+    
+    @Argument(help: "Duration of the session (e.g., '1h', '120min'). Leave empty for indefinite.")
+    var duration: String?
+    
+    
+    func run() throws {
+        
+    }
+}
