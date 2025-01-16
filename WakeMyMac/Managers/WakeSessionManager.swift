@@ -70,8 +70,18 @@ class WakeSessionManager {
         self.session = session
     }
     
-    func deleteFileIfExists() {
-        logger.info("")
+    private func deleteFileIfExists() {
+        guard savedSessionExists() else {
+            logger.info("Saved session is not exist.")
+            return
+        }
+        
+        do {
+            try FileManager.default.removeItem(at: sessionFilePath)
+            logger.info("Session file was successfyly removed")
+        } catch {
+            logger.error("Failed to delete session file: \(error.localizedDescription)")
+        }
     }
     
     func releaseSession() {

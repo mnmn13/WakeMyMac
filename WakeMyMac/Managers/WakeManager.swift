@@ -27,7 +27,7 @@ final class WakeManager: WakeSessionManager {
     /// Start function will override any existing
     func start(duration: TimeInterval? = nil, force: Bool = false) {
         // Stop any active sestion
-        if let session = getCurrentSession(), !force {
+        if sessionIsActive(), !force {
             logger.info("Attempting to start a new session while another session is active.")
             if askForConfirmation("Do you want to overwrite the current session?") {
                 stop()
