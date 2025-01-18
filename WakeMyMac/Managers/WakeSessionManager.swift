@@ -21,19 +21,14 @@ class WakeSessionManager {
     private var session: WakeSession?
     
     init() {
-        guard FileManager.default.fileExists(atPath: getSessionFilePath().path) else {
+        guard savedSessionExists() else {
             logger.info("Saved session is not detected.")
+            print("Saved session is not detected.")
             return
         }
-        
-        do {
-            let data = try Data(contentsOf: sessionFilePath)
-            let decoder = JSONDecoder()
-            session = try decoder.decode(WakeSession.self, from: data)
-        } catch {
-            logger.error("Failed to load session: \(error.localizedDescription)")
-        }
+        session = retrieveSavedSession()
     }
+    
     
     private func getSessionFilePath() -> URL {
         FileManager.default.homeDirectoryForCurrentUser.appending(path: Constants.wakeSession.value)
@@ -41,6 +36,22 @@ class WakeSessionManager {
     
     func getCurrentSession() -> WakeSession? {
         session
+    }
+    
+    func refreshSession() {
+        self.session = retrieveSavedSession()
+    }
+    
+    private func retrieveSavedSession() -> WakeSession? {
+        do {
+            let data = try Data(contentsOf: sessionFilePath)
+            let decoder = JSONDecoder()
+            let session = try decoder.decode(WakeSession.self, from: data)
+            return session
+        } catch {
+            logger.error("Failed to load session: \(error.localizedDescription)")
+        }
+        return nil
     }
     
     func sessionIsActive() -> Bool {
@@ -55,19 +66,25 @@ class WakeSessionManager {
         return status
     }
     
-    func saveSession(_ session: WakeSession) {
+    func saveSession(_ session: WakeSession) throws {
         logger.info("Attempting to save new session")
         
         do {
             let encoder = JSONEncoder()
             let data = try encoder.encode(session)
+            deleteFileIfExists()
             try data.write(to: sessionFilePath)
         } catch {
             logger.error("Failed to save session: \(error.localizedDescription)")
-            
+            throw(error)
         }
         
         self.session = session
+    }
+    
+    func saveSession(_ daemonID: Int32, duration: TimeInterval?) {
+        let session = WakeSession(deamonID: daemonID, duration: duration)
+        try? saveSession(session)
     }
     
     private func deleteFileIfExists() {
@@ -87,5 +104,21 @@ class WakeSessionManager {
     func releaseSession() {
         deleteFileIfExists()
         session = nil
+    }
+    
+    /// Saves IOPMAssertionID to existing saved session
+    /// Returns result as a bool
+    @discardableResult
+    func saveAssertion(id: IOPMAssertionID) -> Bool {
+        guard var session else { return false }
+        
+        do {
+            session.assertionID = id
+            releaseSession()
+            try saveSession(session)
+            return true
+        } catch {
+            return false
+        }
     }
 }

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD83058B2D38485E00BF3477 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = AD83058A2D38485E00BF3477 /* ArgumentParser */; };
-		AD83058D2D38485E00BF3477 /* generate-manual in Frameworks */ = {isa = PBXBuildFile; productRef = AD83058C2D38485E00BF3477 /* generate-manual */; };
+		AD8305E82D39713300BF3477 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = AD8305E72D39713300BF3477 /* ArgumentParser */; };
+		AD8305EA2D39713300BF3477 /* generate-manual in Frameworks */ = {isa = PBXBuildFile; productRef = AD8305E92D39713300BF3477 /* generate-manual */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,8 +40,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD83058B2D38485E00BF3477 /* ArgumentParser in Frameworks */,
-				AD83058D2D38485E00BF3477 /* generate-manual in Frameworks */,
+				AD8305E82D39713300BF3477 /* ArgumentParser in Frameworks */,
+				AD8305EA2D39713300BF3477 /* generate-manual in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,8 +84,8 @@
 			);
 			name = WakeMyMac;
 			packageProductDependencies = (
-				AD83058A2D38485E00BF3477 /* ArgumentParser */,
-				AD83058C2D38485E00BF3477 /* generate-manual */,
+				AD8305E72D39713300BF3477 /* ArgumentParser */,
+				AD8305E92D39713300BF3477 /* generate-manual */,
 			);
 			productName = WakeMyMac;
 			productReference = AD83057F2D38412900BF3477 /* WakeMyMac */;
@@ -116,7 +116,7 @@
 			mainGroup = AD8305762D38412900BF3477;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+				AD8305E62D39713300BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AD8305802D38412900BF3477 /* Products */;
@@ -263,6 +263,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3H8Z3J9U5A;
 				ENABLE_HARDENED_RUNTIME = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -274,6 +275,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3H8Z3J9U5A;
 				ENABLE_HARDENED_RUNTIME = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -303,7 +305,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+		AD8305E62D39713300BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
 			requirement = {
@@ -314,14 +316,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AD83058A2D38485E00BF3477 /* ArgumentParser */ = {
+		AD8305E72D39713300BF3477 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			package = AD8305E62D39713300BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
 			productName = ArgumentParser;
 		};
-		AD83058C2D38485E00BF3477 /* generate-manual */ = {
+		AD8305E92D39713300BF3477 /* generate-manual */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AD8305892D38485E00BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			package = AD8305E62D39713300BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
 			productName = "generate-manual";
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -22,6 +22,7 @@ final class WakeManager: WakeSessionManager {
     
     private override init() {
         super.init()
+        
     }
     
     /// Start function will override any existing
@@ -29,48 +30,94 @@ final class WakeManager: WakeSessionManager {
         // Stop any active sestion
         if sessionIsActive(), !force {
             logger.info("Attempting to start a new session while another session is active.")
+            print("Warning: A wake session is already active.")
             if askForConfirmation("Do you want to overwrite the current session?") {
-                stop()
                 logger.info("User chose to overwrite the active session.")
+                stop()
             } else {
                 logger.info("User chose not to overwrite the active session.")
                 return
             }
         }
+        startDeamon(duration: duration)
+    }
+    
+    private func startDeamon(duration: TimeInterval?) {
+        setupSignalHandler()
+        let daemon = Process()
+        let executablePath = CommandLine.arguments[0]
+        daemon.executableURL = URL(fileURLWithPath: executablePath)
+        daemon.arguments = ["wake-daemon", "--start"]
         
-        
-        let reason = "Prevent Sleep" as CFString
-        var newAssertionID: IOPMAssertionID = 0
-        
-        let result = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep as CFString,
-                                                 IOPMAssertionLevel(kIOPMAssertionLevelOn),
-                                                 reason,
-                                                 &newAssertionID)
-        
-        if result == kIOReturnSuccess {
-            logger.info("Successfully created an assertion with ID: \(newAssertionID)")
-            let newSession = WakeSession(assertionID: newAssertionID, duration: duration)
-            saveSession(newSession)
-        } else {
-            logger.error("Failed to create assertion: \(result)")
-            releaseSession()
+        if let duration = duration {
+            daemon.arguments?.append(contentsOf: ["--duration", "\(duration)"])
         }
         
+        let pipe = Pipe()
+        daemon.standardOutput = pipe
+        
+        do {
+            try daemon.run()
+            print("Daemon with id: \(daemon.processIdentifier) created.")
+            saveSession(daemon.processIdentifier, duration: duration)
+            
+            RunLoop.main.run()
+        } catch {
+            print("Failed to start wake session: \(error)")
+        }
     }
+    
+    private func setupSignalHandler() {
+        // Create signals
+        let successSignal = DispatchSource.makeSignalSource(signal: Signal.success.rawValue, queue: .main)
+        let failureSignal = DispatchSource.makeSignalSource(signal: Signal.failure.rawValue, queue: .main)
+        
+        // Ignore detault system behaviuor for signals
+        signal(Signal.success.rawValue, SIG_IGN)
+        signal(Signal.failure.rawValue, SIG_IGN)
+        
+        successSignal.setEventHandler {
+            
+            // Success handler
+            print("Wake session started")
+            
+//            refreshSession()
+            successSignal.cancel()
+            exit(0)
+        }
+        
+        failureSignal.setEventHandler { [weak self] in
+            guard let self else { return }
+            
+            print("Failed to start wake session.")
+            print("Killing deamon.")
+            
+            failureSignal.cancel()
+            
+            releaseSession()
+            exit(0)
+        }
+
+        successSignal.resume()
+        failureSignal.resume()
+    }
+    
     
     func stop() {
         guard let session = getCurrentSession() else {
             logger.info("No active session to stop.")
+            print("No active session to stop.")
             return
         }
-
-        let result = IOPMAssertionRelease(session.assertionID)
-        if result == kIOReturnSuccess {
-            logger.info("Successfully released assertion with ID: \(session.assertionID)")
-            releaseSession()
-        } else {
-            logger.error("Failed to release assertion: \(result)")
-        }
+        print("Daemon exists: \(kill(session.deamonID, 0) == 0)")
+        
+        send(.terminate, session.deamonID)
+        releaseSession()
+    }
+    
+    private func isDeamonRunning() -> Bool {
+        guard let pid = getCurrentSession()?.deamonID else { return false }
+        return kill(pid, 0) == 0
     }
     
     func status() -> (startTime: Date, remainingTime: TimeInterval?)? {
@@ -81,4 +128,5 @@ final class WakeManager: WakeSessionManager {
         }
         return (sessionData.startTime, nil)
     }
+    
 }

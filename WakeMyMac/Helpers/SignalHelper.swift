@@ -13,16 +13,18 @@
 // limitations under the License.
 
 import Foundation
-import ArgumentParser
 
-struct Start: ParsableCommand {
-    static var configuration = CommandConfiguration(abstract: "Start a wake session.")
+enum Signal: Int32 {
+    case success = 30 // SIGUSR1
+    case failure = 31 // SIGUSR2
     
-    @Argument(help: "Duration of the session (e.g., '1h', '120min'). Leave empty for indefinite.")
-    var duration: String?
+    // Soft termination
+    case terminate = 15 // SIGTERM
     
-    
-    func run() throws {
-        
-    }
+    // Force termination
+    case kill = 0 // SIGKILL
+}
+
+func send(_ signal: Signal, _ processID: pid_t = getppid()) {
+    kill(processID, signal.rawValue)
 }

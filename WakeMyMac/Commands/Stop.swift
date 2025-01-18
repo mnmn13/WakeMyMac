@@ -13,16 +13,13 @@
 // limitations under the License.
 
 import Foundation
+import ArgumentParser
 
-enum Constants: String {
-    case wakeSession
-    case wakeConfig
+struct Stop: ParsableCommand {
+    static var configuration = CommandConfiguration(abstract: "Stop the current wake session.")
     
-    case assertionName = "WakeMyMac"
-    
-    // Logger
-    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
-    case loggerCategory = "main"
-    
-    var value: String { rawValue }
+    func run() throws { 
+        WakeManager.current.stop()
+        print("Wake session stopped.")
+    }
 }
