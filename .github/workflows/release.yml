@@ -24,7 +24,7 @@ jobs:
 
       - name: Build binary
         run: |
-          xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build
+          xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
           cp build/Build/Products/Release/WakeMyMac .
 
       - name: Set executable permissions
