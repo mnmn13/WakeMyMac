@@ -19,3 +19,11 @@ func formatDuration(_ interval: TimeInterval) -> String {
     let minutes = (Int(interval) % 3600) / 60
     return "\(hours)h \(minutes)m"
 }
+
+extension Date {
+    func formatted() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm E, d MMM y"
+        return formatter.string(from: self)
+    }
+}
