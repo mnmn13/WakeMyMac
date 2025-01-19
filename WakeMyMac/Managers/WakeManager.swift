@@ -29,13 +29,15 @@ final class WakeManager: WakeSessionManager {
     func start(duration: TimeInterval? = nil, force: Bool = false) {
         // Stop any active sestion
         if sessionIsActive(), !force {
-            logger.info("Attempting to start a new session while another session is active.")
+            logger.info("Attempting to start a new session while another session is active")
             cprint("A wake session is already active", .warning)
             if askForConfirmation("Do you want to overwrite the current session?") {
                 logger.info("User chose to overwrite the active session.")
+//                cprint("Overwriting the current session")
                 stop()
             } else {
                 logger.info("User chose not to overwrite the active session.")
+//                cprint("Operation canceled by user.", .error)
                 return
             }
         }
@@ -43,6 +45,8 @@ final class WakeManager: WakeSessionManager {
     }
     
     private func startDeamon(duration: TimeInterval?) {
+        logger.info("Setting up daemon process.")
+        
         setupSignalHandler()
         let daemon = Process()
         let executablePath = CommandLine.arguments[0]
@@ -58,12 +62,14 @@ final class WakeManager: WakeSessionManager {
         
         do {
             try daemon.run()
-            print("Daemon with id: \(daemon.processIdentifier) created.")
+#if DEBUG
+            cprint("Daemon successfully started with PID: \(daemon.processIdentifier)", .success)
+#endif
             saveSession(daemon.processIdentifier, duration: duration)
             
             RunLoop.main.run()
         } catch {
-            print("Failed to start wake session: \(error)")
+            cprint("Failed to start wake session: \(error)", .error )
         }
     }
     
@@ -78,10 +84,8 @@ final class WakeManager: WakeSessionManager {
         
         successSignal.setEventHandler {
             
-            // Success handler
-            print("Wake session started")
+            cprint("Wake session started successfully!", .success)
             
-//            refreshSession()
             successSignal.cancel()
             exit(0)
         }
@@ -89,8 +93,10 @@ final class WakeManager: WakeSessionManager {
         failureSignal.setEventHandler { [weak self] in
             guard let self else { return }
             
-            print("Failed to start wake session.")
-            print("Killing deamon.")
+            cprint("Failed to start wake session.", .error)
+#if DEBUG
+            cprint("Killing deamon", .error)
+#endif
             
             failureSignal.cancel()
             
@@ -103,15 +109,22 @@ final class WakeManager: WakeSessionManager {
     }
     
     
-    func stop() {
+    func stop(force: Bool = false) {
         guard let session = getCurrentSession() else {
             logger.info("No active session to stop.")
             print("No active session to stop.")
             return
         }
-        print("Daemon exists: \(kill(session.deamonID, 0) == 0)")
         
-        send(.terminate, session.deamonID)
+        #if DEBUG
+        print("Daemon exists: \(kill(session.deamonID, 0) == 0)")
+        #endif
+        
+        if force {
+            send(.kill, session.deamonID)
+        } else {
+            send(.terminate, session.deamonID)
+        }
         releaseSession()
     }
     

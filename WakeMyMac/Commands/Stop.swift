@@ -18,8 +18,10 @@ import ArgumentParser
 struct Stop: ParsableCommand {
     static var configuration = CommandConfiguration(abstract: "Stop the current wake session.")
     
+    @Flag(name: .shortAndLong, help: "")
+    var force: Bool = false
+    
     func run() throws { 
-        WakeManager.current.stop()
-        print("Wake session stopped.")
+        WakeManager.current.stop(force: force)
     }
 }
