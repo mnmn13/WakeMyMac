@@ -26,6 +26,7 @@ jobs:
         run: |
           xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
           EXECUTABLE_PATH=$(find build/Build/Products/Release -type f -name WakeMyMac)
+          ls -R build/Build/Products/Release/
           if [ -z "$EXECUTABLE_PATH" ]; then
             echo "Error: Executable not found."
             exit 1
