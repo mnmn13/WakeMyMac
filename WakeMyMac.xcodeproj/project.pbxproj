@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,11 +29,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AD8305812D38412900BF3477 /* WakeMyMac */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = WakeMyMac;
-			sourceTree = "<group>";
-		};
+		AD8305812D38412900BF3477 /* WakeMyMac */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = WakeMyMac; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +105,7 @@
 				};
 			};
 			buildConfigurationList = AD83057A2D38412900BF3477 /* Build configuration list for PBXProject "WakeMyMac" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -120,7 +117,6 @@
 			packageReferences = (
 				AD8305E62D39713300BF3477 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 			);
-			preferredProjectObjectVersion = 77;
 			productRefGroup = AD8305802D38412900BF3477 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
