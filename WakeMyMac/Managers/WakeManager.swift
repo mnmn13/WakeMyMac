@@ -40,7 +40,10 @@ final class WakeManager: WakeSessionManager {
                 dprint("Operation canceled by user.")
                 return
             }
+        } else if sessionIsActive(), force {
+            stop()
         }
+        
         startDeamon(duration: duration)
     }
     
