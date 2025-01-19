@@ -14,5 +14,21 @@
 
 import Foundation
 
+enum Signal: Int32 {
+    case success = 30 // SIGUSR1
+    case failure = 31 // SIGUSR2
+    
+    // Soft termination
+    case terminate = 15 // SIGTERM
+    
+    // Force termination
+    case kill = 0 // SIGKILL
+}
 
-WakeMyMac.main()
+func send(_ signal: Signal, _ processID: pid_t = getppid()) {
+    kill(processID, signal.rawValue)
+}
+
+func killSelf() {
+    exit(0)
+}

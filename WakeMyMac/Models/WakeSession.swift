@@ -13,6 +13,22 @@
 // limitations under the License.
 
 import Foundation
+import IOKit.pwr_mgt
 
-
-WakeMyMac.main()
+struct WakeSession: Codable {
+    // Background process ID (deamon)
+    var deamonID: Int32
+    // IOPMAssertion ID (process to keep mac active)
+    var assertionID: IOPMAssertionID
+    
+    let startTime: Date
+    var duration: TimeInterval?
+    var endTime: Date? { duration.map { startTime.addingTimeInterval($0) } }
+    
+    init(deamonID: Int32 = 0, assertionID: IOPMAssertionID = 0, duration: TimeInterval? = nil) {
+        self.deamonID = deamonID
+        self.assertionID = assertionID
+        self.startTime = Date()
+        self.duration = duration
+    }
+}

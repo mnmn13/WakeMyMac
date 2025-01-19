@@ -14,5 +14,17 @@
 
 import Foundation
 
-
-WakeMyMac.main()
+enum Constants: String {
+    case wakeSession
+    case wakeConfig
+    
+    case assertionName = "WakeMyMac"
+    
+    // Logger
+    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
+    case loggerCategory = "main"
+    
+    var value: String { rawValue }
+    
+    static let version: String = ProcessInfo.processInfo.environment["VERSION"] ?? ""
+}

@@ -13,6 +13,15 @@
 // limitations under the License.
 
 import Foundation
+import ArgumentParser
 
-
-WakeMyMac.main()
+struct Stop: ParsableCommand {
+    static var configuration = CommandConfiguration(abstract: "Stop the current wake session.")
+    
+    @Flag(name: .shortAndLong, help: "")
+    var force: Bool = false
+    
+    func run() throws { 
+        WakeManager.current.stop(force: force)
+    }
+}
