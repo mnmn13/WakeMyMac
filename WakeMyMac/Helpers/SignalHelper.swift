@@ -28,3 +28,7 @@ enum Signal: Int32 {
 func send(_ signal: Signal, _ processID: pid_t = getppid()) {
     kill(processID, signal.rawValue)
 }
+
+func killSelf() {
+    exit(0)
+}

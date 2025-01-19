@@ -54,16 +54,14 @@ final class WakeDaemon: WakeSessionManager, ParsableCommand {
             return
         }
         
-        
-//        print("Assertion ID: \(assertionID)")
         guard saveAssertion(id: assertionID) else { send(.failure); return }
 
-//        if let duration = duration {
-//            DispatchQueue.global().asyncAfter(deadline: .now() + duration) { [weak self] in
-//                guard let self else { return }
-//                releaseWakeSession()
-//            }
-//        }
+        // Set termination duration if persist
+        if let duration = duration {
+            DispatchQueue.global().asyncAfter(deadline: .now() + duration) { [weak self] in
+                self?.stopWakeSession()
+            }
+        }
         
         // Send signal to parent process that Wake Deamon started successfuly
         send(.success)
@@ -72,16 +70,9 @@ final class WakeDaemon: WakeSessionManager, ParsableCommand {
         // Hold the process
         RunLoop.main.run()
     }
-
-    private func releaseWakeSession() {
-        guard assertionID != 0 else { return }
-
-        let result = IOPMAssertionRelease(assertionID)
-        if result == kIOReturnSuccess {
-            print("Wake session released.")
-        } else {
-            print("Failed to release wake session: \(result)")
-            
-        }
+    
+    func stopWakeSession() {
+        releaseSession()
+        killSelf()
     }
 }
