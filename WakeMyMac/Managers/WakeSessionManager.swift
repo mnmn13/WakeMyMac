@@ -32,7 +32,11 @@ class WakeSessionManager {
     
     
     private func getSessionFilePath() -> URL {
-        FileManager.default.homeDirectoryForCurrentUser.appending(path: Constants.wakeSession.value)
+        if #available(macOS 13.8, *) {
+            return FileManager.default.homeDirectoryForCurrentUser.appending(path: Constants.wakeSession.value)
+        } else {
+            return FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(Constants.wakeSession.value)
+        }
     }
     
     func getCurrentSession() -> WakeSession? {

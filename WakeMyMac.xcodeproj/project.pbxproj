@@ -25,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		AD83057F2D38412900BF3477 /* WakeMyMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WakeMyMac; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD8305FB2D3D521400BF3477 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -51,6 +52,7 @@
 		AD8305762D38412900BF3477 = {
 			isa = PBXGroup;
 			children = (
+				AD8305FB2D3D521400BF3477 /* Package.swift */,
 				AD8305812D38412900BF3477 /* WakeMyMac */,
 				AD8305802D38412900BF3477 /* Products */,
 			);
