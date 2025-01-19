@@ -3,7 +3,7 @@ name: Release WakeMyMac
 on:
   push:
     tags:
-      - "v*"
+      - 'v*.*.*'  # Triggers tags that match a pattern vX.X.X
 
 jobs:
   build:
@@ -16,31 +16,36 @@ jobs:
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
+      - name: Extract version from tag
+        id: extract_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
       - name: Build binary
         run: |
           xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build
           cp build/Build/Products/Release/WakeMyMac .
 
       - name: Create tarball
-        run: tar -czvf WakeMyMac.tar.gz WakeMyMac
+        run: tar -czvf WakeMyMac_${{ env.VERSION }}.tar.gz WakeMyMac
 
       - name: Calculate SHA256
-        id: sha256
-        run: echo "sha256=$(shasum -a 256 WakeMyMac.tar.gz | awk '{print $1}')" >> $GITHUB_ENV
+        id: calculate_sha
+        run: echo "SHA256=$(shasum -a 256 WakeMyMac_${{ env.VERSION }}.tar.gz | awk '{print $1}')" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: WakeMyMac.tar.gz
+          files: WakeMyMac_${{ env.VERSION }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Homebrew Formula
         run: |
-          sed -i '' "s|url \".*\"|url \"https://github.com/mnmn13/WakeMyMac/releases/download/${GITHUB_REF#refs/tags/}/WakeMyMac.tar.gz\"|" Formula/wakemymac.rb
-          sed -i '' "s|sha256 \".*\"|sha256 \"${{ env.sha256 }}\"|" Formula/wakemymac.rb
+          FORMULA_FILE=Formula/wakemymac.rb
+          sed -i '' "s|url \".*\"|url \"https://github.com/mnmn13/WakeMyMac/releases/download/v${{ env.VERSION }}/WakeMyMac_${{ env.VERSION }}.tar.gz\"|" $FORMULA_FILE
+          sed -i '' "s|sha256 \".*\"|sha256 \"${{ env.SHA256 }}\"|" $FORMULA_FILE
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add Formula/wakemymac.rb
-          git commit -m "Update wakemymac formula to version ${GITHUB_REF#refs/tags/}"
+          git add $FORMULA_FILE
+          git commit -m "Update wakemymac formula to version v${{ env.VERSION }}"
           git push
