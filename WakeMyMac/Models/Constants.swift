@@ -24,5 +24,8 @@ enum Constants: String {
     case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
     case loggerCategory = "main"
     
+    // Current version
+    case version = "1.0.0"
+    
     var value: String { rawValue }
 }

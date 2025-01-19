@@ -20,6 +20,16 @@ struct WakeMyMac: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "Prevent your macOS device from sleeping with advanced scheduling and configuration options.",
                                                     subcommands: [Start.self, Stop.self, Status.self, WakeDaemon.self],
                                                     defaultSubcommand: nil)
+    @Flag(name: .shortAndLong, help: "Show the current Wake version.")
+    var version: Bool = false
     
-    func run() throws {}
+    func run() throws {
+        printVersion()
+    }
+    
+    private func printVersion() {
+        if version {
+            cprint("WakeMyMac version: \(Constants.version.value)", .white)
+        }
+    }
 }

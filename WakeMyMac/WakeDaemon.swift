@@ -18,7 +18,7 @@ import IOKit.pwr_mgt
 
 final class WakeDaemon: WakeSessionManager, ParsableCommand {
     static let configuration = CommandConfiguration(commandName: "wake-daemon",
-                                                    abstract: "Daemon process to manage macOS sleep prevention session.")
+                                                    abstract: "Daemon process to manage macOS sleep prevention session.", shouldDisplay: false)
     
     @Flag(help: "Start the wake session.")
     var start: Bool = false
