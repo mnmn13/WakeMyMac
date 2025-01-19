@@ -30,7 +30,7 @@ final class WakeManager: WakeSessionManager {
         // Stop any active sestion
         if sessionIsActive(), !force {
             logger.info("Attempting to start a new session while another session is active.")
-            print("Warning: A wake session is already active.")
+            cprint("A wake session is already active", .warning)
             if askForConfirmation("Do you want to overwrite the current session?") {
                 logger.info("User chose to overwrite the active session.")
                 stop()

@@ -32,9 +32,6 @@ struct Start: ParsableCommand {
         
         guard let interval = parseDuration(duration) else { throw ValidationError("Invalid duration format. Use '1h', '120min', or similar.") }
         WakeManager.current.start(duration: interval, force: force)
-        let prompt = "Wake session started for \(duration)."
-        print(prompt)
-        logger.info("\(prompt)")
     }
     
     private func parseDuration(_ input: String) -> TimeInterval? {
