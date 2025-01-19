@@ -16,7 +16,7 @@ jobs:
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.4'  # Укажите необходимую версию Xcode
+          xcode-version: latest-stable
 
       - name: Extract version from tag
         id: extract_version
