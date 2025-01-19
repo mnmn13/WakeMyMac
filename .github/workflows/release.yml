@@ -25,8 +25,12 @@ jobs:
       - name: Build binary
         run: |
           xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
-          cp build/Build/Products/Release/WakeMyMac .
-
+          EXECUTABLE_PATH=$(find build/Build/Products/Release -type f -name WakeMyMac)
+          if [ -z "$EXECUTABLE_PATH" ]; then
+            echo "Error: Executable not found."
+            exit 1
+          fi
+          cp "$EXECUTABLE_PATH" .
       - name: Set executable permissions
         run: chmod +x WakeMyMac
 
