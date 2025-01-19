@@ -33,11 +33,11 @@ final class WakeManager: WakeSessionManager {
             cprint("A wake session is already active", .warning)
             if askForConfirmation("Do you want to overwrite the current session?") {
                 logger.info("User chose to overwrite the active session.")
-//                cprint("Overwriting the current session")
+                dprint("Overwriting the current session")
                 stop()
             } else {
                 logger.info("User chose not to overwrite the active session.")
-//                cprint("Operation canceled by user.", .error)
+                dprint("Operation canceled by user.")
                 return
             }
         }
@@ -94,12 +94,9 @@ final class WakeManager: WakeSessionManager {
             guard let self else { return }
             
             cprint("Failed to start wake session.", .error)
-#if DEBUG
-            cprint("Killing deamon", .error)
-#endif
+            dprint("Killing deamon")
             
             failureSignal.cancel()
-            
             releaseSession()
             exit(0)
         }
@@ -116,9 +113,7 @@ final class WakeManager: WakeSessionManager {
             return
         }
         
-        #if DEBUG
-        print("Daemon exists: \(kill(session.deamonID, 0) == 0)")
-        #endif
+        dprint("Daemon exists: \(kill(session.deamonID, 0) == 0)")
         
         if force {
             send(.kill, session.deamonID)
@@ -134,12 +129,11 @@ final class WakeManager: WakeSessionManager {
     }
     
     func status() -> (startTime: Date, remainingTime: TimeInterval?)? {
-        guard let sessionData = getCurrentSession() else { return nil }
+        guard let sessionData = getCurrentSession(), isDeamonRunning() else { return nil }
         if let duration = sessionData.duration {
             let elapsed = Date().timeIntervalSince(sessionData.startTime)
             return (sessionData.startTime, max(duration - elapsed, 0))
         }
         return (sessionData.startTime, nil)
     }
-    
 }

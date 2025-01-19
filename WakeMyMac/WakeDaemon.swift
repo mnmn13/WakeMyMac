@@ -35,7 +35,7 @@ final class WakeDaemon: WakeSessionManager, ParsableCommand {
         }
         
         if start {
-            print("Demon starting")
+            dprint("Demon starting")
             startWakeSession(duration: duration)
         }
     }

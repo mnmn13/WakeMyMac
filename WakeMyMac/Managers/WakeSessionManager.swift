@@ -23,7 +23,8 @@ class WakeSessionManager {
     init() {
         guard savedSessionExists() else {
             logger.info("Saved session is not detected.")
-            print("Saved session is not detected.")
+            
+            dprint("Saved session is not detected")
             return
         }
         session = retrieveSavedSession()

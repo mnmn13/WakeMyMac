@@ -18,6 +18,7 @@ enum ConsoleColor: String {
     case red = "\u{001B}[31m"
     case green = "\u{001B}[32m"
     case yellow = "\u{001B}[33m"
+    case orange = "\u{001B}[38;5;214m"
     case blue = "\u{001B}[34m"
     case magenta = "\u{001B}[35m"
     case cyan = "\u{001B}[36m"
@@ -30,11 +31,14 @@ enum OutputState {
     case warning
     case error
     
+    case debug
+    
     var prefix: String {
         switch self {
         case .success: ""
         case .warning: "Warning"
         case .error: "Error"
+        case .debug: "Debug"
         }
     }
     
@@ -43,10 +47,12 @@ enum OutputState {
         case .success: .green
         case .warning: .yellow
         case .error: .red
+        case .debug: .orange
         }
     }
 }
 
+// Color print
 func cprint(_ message: String, _ color: ConsoleColor = .reset) {
     print("\(color.rawValue)\(message)\(ConsoleColor.reset.rawValue)")
 }
@@ -60,4 +66,11 @@ func cprint(_ message: String, _ state: OutputState) {
     }
     
     cprint("\(prefix) \(message)", state.color)
+}
+
+// Debug print
+func dprint(_ message: String) {
+#if DEBUG
+    cprint(message, .debug)
+#endif
 }
