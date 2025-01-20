@@ -62,3 +62,5 @@ jobs:
             git commit -m "Update wakemymac formula to version v${{ env.VERSION }}"
             git push
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
