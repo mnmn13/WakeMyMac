@@ -25,7 +25,7 @@ jobs:
       - name: Build binary
         run: |
           xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
-          EXECUTABLE_PATH="/Users/runner/work/WakeMyMac/WakeMyMac/build/Build/Products/Release/WakeMyMac
+          EXECUTABLE_PATH="/Users/runner/work/WakeMyMac/WakeMyMac/build/Build/Products/Release/WakeMyMac"
           ls build/Build/Products/Release/
           
           cp "$EXECUTABLE_PATH" ./WakeMyMac
