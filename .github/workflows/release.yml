@@ -53,18 +53,15 @@ jobs:
           FORMULA_FILE=Formula/wakemymac.rb
           sed -i '' -e "s|url \".*\"|url \"https://github.com/mnmn13/WakeMyMac/releases/download/v${{ env.VERSION }}/WakeMyMac_${{ env.VERSION }}.tar.gz\"|" \
                     -e "s|sha256 \".*\"|sha256 \"${{ env.SHA256 }}\"|" $FORMULA_FILE
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          
-          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/mnmn13/WakeMyMac.git
-          git remote -v  # для проверки
-          
+                    
           git add $FORMULA_FILE
-          if git diff-index --quiet HEAD; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update wakemymac formula to version v${{ env.VERSION }}"
-            git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/mnmn13/WakeMyMac.git HEAD:main
-          fi
+          
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout "${GITHUB_REF:11}"
+          git commit -am "Automated report"
+          git push
+
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
