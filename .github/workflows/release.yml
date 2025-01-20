@@ -13,6 +13,10 @@ jobs:
       packages: write
       id-token: write
 
+    strategy:
+      matrix:
+        arch: [x86_64, arm64]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,7 +34,14 @@ jobs:
 
       - name: Build binary
         run: |
-          xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
+
+          xcodebuild -scheme WakeMyMac \
+                     -configuration Release \
+                     -derivedDataPath build \
+                     -arch ${{ matrix.arch }} \
+                     CODE_SIGNING_ALLOWED=NO
+                     
+          # xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
           EXECUTABLE_PATH="/Users/runner/work/WakeMyMac/WakeMyMac/build/Build/Products/Release/WakeMyMac"
           ls build/Build/Products/Release/
           
