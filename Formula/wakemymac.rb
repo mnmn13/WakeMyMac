@@ -1,8 +1,8 @@
 class Wakemymac < Formula
   desc "CLI tool to prevent Mac from sleeping, energy-efficient sleep prevention."
   homepage "https://github.com/mnmn13/WakeMyMac"
-  url "https://github.com/mnmn13/WakeMyMac/releases/download/v1.0.1/WakeMyMac_1.0.1.tar.gz"
-  sha256 "644683030efb21611cdb5d16ca75254bd47477fad7424bde71a7cae6c6fcc4a1"
+  url "https://github.com/mnmn13/WakeMyMac/releases/download/v1.0.2/WakeMyMac_1.0.2.tar.gz"
+  sha256 "55f2b07d1f20c5edb53ba8e13cfc361dd2d4c015baecb605451a3e2ead63bd8d"
   license "MIT"
 
   def install
