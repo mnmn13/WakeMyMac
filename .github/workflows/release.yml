@@ -57,15 +57,14 @@ jobs:
           git config user.email "actions@github.com"
           
           git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/mnmn13/WakeMyMac.git
-      
-          git remote -v
-      
+          git remote -v  # для проверки
+          
           git add $FORMULA_FILE
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
             git commit -m "Update wakemymac formula to version v${{ env.VERSION }}"
-            git push origin main
+            git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/mnmn13/WakeMyMac.git HEAD:main
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
