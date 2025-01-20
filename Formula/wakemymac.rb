@@ -8,6 +8,13 @@ class Wakemymac < Formula
   def install
     bin.install "WakeMyMac" => "wake"
   end
+  
+  def caveats
+    <<~EOS
+        export PATH="/usr/local/bin:$PATH"
+        source ~/.zshrc
+    EOS
+  end
 
   test do
     system "#{bin}/wake", "--version"
