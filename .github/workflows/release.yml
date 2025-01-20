@@ -55,12 +55,17 @@ jobs:
                     -e "s|sha256 \".*\"|sha256 \"${{ env.SHA256 }}\"|" $FORMULA_FILE
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/mnmn13/WakeMyMac.git
+      
+          git remote -v
+      
           git add $FORMULA_FILE
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
             git commit -m "Update wakemymac formula to version v${{ env.VERSION }}"
-            git push
+            git push origin main
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
