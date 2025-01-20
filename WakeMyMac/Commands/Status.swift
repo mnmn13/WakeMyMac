@@ -21,7 +21,6 @@ struct Status: ParsableCommand {
     func run() throws {
         if let status = WakeManager.current.status() {
             print("Session started at: \(status.startTime.formatted())")
-            
             if let remaining = status.remainingTime {
                 print("Time remaining: \(formatDuration(remaining))")
             } else {
