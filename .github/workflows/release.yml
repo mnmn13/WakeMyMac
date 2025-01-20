@@ -44,7 +44,7 @@ jobs:
         with:
           files: WakeMyMac_${{ env.VERSION }}.tar.gz
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Update Homebrew Formula
         run: |
