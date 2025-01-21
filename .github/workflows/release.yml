@@ -33,6 +33,7 @@ jobs:
 
           xcodebuild -scheme WakeMyMac \
                      -configuration Release \
+                     --static-swift-stdlib \
                      -derivedDataPath build \
                      -arch x86_64 -arch arm64 \
                      CODE_SIGNING_ALLOWED=NO
