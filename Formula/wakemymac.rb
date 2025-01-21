@@ -7,7 +7,7 @@ class Wakemymac < Formula
   version "1.0.9"
 
   def install
-    bin.install "WakeMyMac" => "wake"
+    bin.install "WakeMyMac_universal" => "wake"
   end
   
   def caveats
