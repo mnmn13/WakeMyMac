@@ -19,7 +19,7 @@ let package = Package(
         .executableTarget(
             name: "WakeMyMac",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
+                .product(name: "ArgumentParser", package: "swift-argument-parser", type: .static)
             ],
             path: "WakeMyMac",
 //            exclude: ["Tests"],
