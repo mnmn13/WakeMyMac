@@ -75,7 +75,7 @@ jobs:
           install_name_tool -add_rpath "@executable_path/Frameworks" WakeMyMac_universal
 
           #Rename (not working)
-          # mv WakeMyMac_universal WakeMyMac
+          mv WakeMyMac_universal WakeMyMac
           
           #Final check
           ls -l .
