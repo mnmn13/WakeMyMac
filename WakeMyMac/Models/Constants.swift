@@ -26,9 +26,3 @@ enum Constants: String {
     
     var value: String { rawValue }
 }
-
-#if APP_VERSION
-let appVersion = APP_VERSION
-#else
-let appVersion = "dev"
-#endif
