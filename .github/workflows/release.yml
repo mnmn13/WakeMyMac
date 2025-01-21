@@ -60,15 +60,12 @@ jobs:
           ls -l $ARM_BINARY
 
           #Merging binary into one universal
-          lipo -create "$X86_BINARY" "$ARM_BINARY" -output WakeMyMac
+          lipo -create "$X86_BINARY" "$ARM_BINARY" -output WakeMyMac_universal
 
           #Result
-          lipo -info WakeMyMac
+          lipo -info WakeMyMac_universal
 
-          EXECUTABLE_PATH="/Users/runner/work/WakeMyMac/WakeMyMac/build/Build/Products/Release/WakeMyMac"
-          ls build/Build/Products/Release/
-          
-          cp "$EXECUTABLE_PATH" ./WakeMyMac
+          cp WakeMyMac_universal WakeMyMac
 
       - name: Set executable permissions
         run: chmod +x WakeMyMac
