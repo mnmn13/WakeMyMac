@@ -65,17 +65,18 @@ jobs:
           #Result
           lipo -info WakeMyMac_universal
 
-          #Rename (not working)
-          # mv WakeMyMac_universal WakeMyMac
-
           # If the build contains Frameworks, copy them to the root
           if [ -d "build/Build/Products/Release/Frameworks" ]; then
             cp -R build/Build/Products/Release/Frameworks .
           fi
 
           # Add rpath so the binary looks for frameworks in the Frameworks directory next to it
+          install_name_tool -delete_rpath "@executable_path/Frameworks" WakeMyMac_universal || true
           install_name_tool -add_rpath "@executable_path/Frameworks" WakeMyMac_universal
 
+          #Rename (not working)
+          # mv WakeMyMac_universal WakeMyMac
+          
           #Final check
           ls -l .
 
