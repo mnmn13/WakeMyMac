@@ -28,21 +28,48 @@ jobs:
         id: extract_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
-      - name: Build binary
-        run: |
+      - name: Clean previous builds
+        run: rm -rf build
 
+# Intel
+      - name: Build binary for x86_64
+        run: |
           xcodebuild -scheme WakeMyMac \
                      -configuration Release \
-                     --static-swift-stdlib \
-                     -derivedDataPath build \
-                     -arch x86_64 -arch arm64 \
+                     -derivedDataPath build/x86_64 \
+                     -arch x86_64 \
                      CODE_SIGNING_ALLOWED=NO
-                     
-          # xcodebuild -scheme WakeMyMac -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO
+# M-chips
+      - name: Build binary for arm64
+        run: |
+          xcodebuild -scheme WakeMyMac \
+                     -configuration Release \
+                     -derivedDataPath build/arm64 \
+                     -arch arm64 \
+                     CODE_SIGNING_ALLOWED=NO
+
+# Merge 
+      - name: Create universal binary using lipo
+        run: |
+          # Path to binary
+          X86_BINARY="build/x86_64/Build/Products/Release/WakeMyMac"
+          ARM_BINARY="build/arm64/Build/Products/Release/WakeMyMac"
+
+          # Binary validation
+          ls -l $X86_BINARY
+          ls -l $ARM_BINARY
+
+          #Merging binary into one universal
+          lipo -create "$X86_BINARY" "$ARM_BINARY" -output WakeMyMac
+
+          #Result
+          lipo -info WakeMyMac
+
           EXECUTABLE_PATH="/Users/runner/work/WakeMyMac/WakeMyMac/build/Build/Products/Release/WakeMyMac"
           ls build/Build/Products/Release/
           
           cp "$EXECUTABLE_PATH" ./WakeMyMac
+
       - name: Set executable permissions
         run: chmod +x WakeMyMac
 
