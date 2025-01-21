@@ -29,7 +29,7 @@ struct WakeMyMac: ParsableCommand {
     
     private func printVersion() {
         if version {
-            cprint("WakeMyMac version: \(Constants.version)", .white)
+            cprint("WakeMyMac version: \(appVersion)", .white)
         }
     }
 }

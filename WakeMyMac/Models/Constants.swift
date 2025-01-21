@@ -25,6 +25,10 @@ enum Constants: String {
     case loggerCategory = "main"
     
     var value: String { rawValue }
-    
-    static let version: String = ProcessInfo.processInfo.environment["VERSION"] ?? ""
 }
+
+#if APP_VERSION
+let appVersion = APP_VERSION
+#else
+let appVersion = "dev"
+#endif
