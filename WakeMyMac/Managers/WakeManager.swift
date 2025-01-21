@@ -52,7 +52,13 @@ final class WakeManager: WakeSessionManager {
         
         setupSignalHandler()
         let daemon = Process()
-        let executablePath = CommandLine.arguments[0]
+        let executablePath: String
+        if let bundlePath = Bundle.main.executablePath {
+            executablePath = bundlePath
+        } else {
+            let rawPath = CommandLine.arguments[0]
+            executablePath = URL(fileURLWithPath: rawPath, relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath)).standardized.path
+        }
         daemon.executableURL = URL(fileURLWithPath: executablePath)
         daemon.arguments = ["wake-daemon", "--start"]
         
