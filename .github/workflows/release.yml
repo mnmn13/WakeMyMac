@@ -65,7 +65,11 @@ jobs:
           #Result
           lipo -info WakeMyMac_universal
 
-          cp WakeMyMac_universal WakeMyMac
+          #Rename
+          mv WakeMyMac_universal WakeMyMac
+
+          #Final check
+          ls -l .
 
       - name: Set executable permissions
         run: chmod +x WakeMyMac
