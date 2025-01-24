@@ -71,7 +71,7 @@ final class WakeDaemon: WakeSessionManager, ParsableCommand {
         RunLoop.main.run()
     }
     
-    func stopWakeSession() {
+    private func stopWakeSession() {
         releaseSession()
         killSelf()
     }
