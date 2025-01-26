@@ -13,19 +13,3 @@
 // limitations under the License.
 
 import Foundation
-
-enum Constants: String {
-    case wakeSession
-    case alwaysActiveSession
-    case wakeConfig
-    
-    case assertionName = "WakeMyMac"
-    
-    case accessibilitySettingsURL = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-    
-    // Logger
-    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
-    case loggerCategory = "main"
-    
-    var value: String { rawValue }
-}

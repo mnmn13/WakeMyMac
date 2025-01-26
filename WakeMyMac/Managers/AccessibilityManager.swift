@@ -13,19 +13,16 @@
 // limitations under the License.
 
 import Foundation
+import Cocoa
 
-enum Constants: String {
-    case wakeSession
-    case alwaysActiveSession
-    case wakeConfig
-    
-    case assertionName = "WakeMyMac"
-    
-    case accessibilitySettingsURL = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-    
-    // Logger
-    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
-    case loggerCategory = "main"
-    
-    var value: String { rawValue }
-}
+//final class AccessibilityManager {
+//    
+//    func isAccessibilityEnabled() -> Bool {
+//        AXIsProcessTrusted()
+//    }
+//    
+//    func openAccessibilitySettings() {
+//        guard let url = URL(string: Constants.accessibilitySettingsURL.value) else { return }
+//        NSWorkspace.shared.open(url)
+//    }
+//}

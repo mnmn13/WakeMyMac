@@ -13,19 +13,12 @@
 // limitations under the License.
 
 import Foundation
+import ArgumentParser
 
-enum Constants: String {
-    case wakeSession
-    case alwaysActiveSession
-    case wakeConfig
+struct AlwaysActiveCommand: ParsableCommand {
+    static var configuration = CommandConfiguration(commandName: "alwaysActive", subcommands: [AlwaysActiveStart.self], aliases: ["aa"])
+        
     
-    case assertionName = "WakeMyMac"
+    func run() throws {}
     
-    case accessibilitySettingsURL = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-    
-    // Logger
-    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
-    case loggerCategory = "main"
-    
-    var value: String { rawValue }
 }
