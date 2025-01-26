@@ -41,6 +41,7 @@ final class AlwaysActiveDaemon: ParsableCommand {
     }
     
     private func stopAlwaysActiveSession() {
+        KEService.stopActivity()
         StorService.deleteAlwaysActiveSession()
         killSelf()
     }

@@ -16,8 +16,7 @@ import Foundation
 import ArgumentParser
 
 struct AlwaysActiveCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(commandName: "alwaysActive", subcommands: [AlwaysActiveStart.self], aliases: ["aa"])
-        
+    static var configuration = CommandConfiguration(commandName: "alwaysActive", subcommands: [AlwaysActiveStart.self, AlwaysActiveStop.self], aliases: ["aa"])
     
     func run() throws {}
     

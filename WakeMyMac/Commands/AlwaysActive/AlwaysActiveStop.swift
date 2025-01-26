@@ -13,3 +13,45 @@
 // limitations under the License.
 
 import Foundation
+import ArgumentParser
+
+struct AlwaysActiveStop: ParsableCommand {
+    static var configuration = CommandConfiguration(commandName: "stop", abstract: "")
+    
+    @Flag(name: .shortAndLong, help: "")
+    var force: Bool = false
+    
+    func run() throws {
+        guard let session = StorService.loadAlwaysActiveSession() else {
+            cprint("No active session to stop", .warning)
+            return
+        }
+        printDebugDaemonStatus(session)
+        
+//        if force {
+//            send(.kill, session.daemonID)
+//        } else {
+            send(.terminate, session.daemonID)
+//        }
+        StorService.deleteAlwaysActiveSession()
+        guard !daemonIsActive(session: session) else {
+            cprint("Error, could not stop daemon. Try stop -f", .error)
+            return
+        }
+        cprint("Daemon stopped successfully", .success)
+    }
+    
+    private func printDebugDaemonStatus(_ session: AlwaysActiveSession) {
+        let daemonIsActive = daemonIsActive(session: session)
+        
+        if daemonIsActive {
+            dprint("Found active daemon with id: \(session.daemonID)")
+        } else {
+            dprint("No active daemon found")
+        }
+    }
+    
+    private func daemonIsActive(session: AlwaysActiveSession) -> Bool {
+        kill(session.daemonID, 0) == 0
+    }
+}

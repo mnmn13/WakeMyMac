@@ -21,46 +21,27 @@ final class KeyboardEventService {
     
     static let shared = KeyboardEventService()
     
-    private var activityTimer: Timer?
+    private var watcher: IdleWatcher?
     
     private init() {}
     
     // MARK: - Public Methods
-    /// Starts the keyboard event activity by scheduling a timer.
+    
     func startActivity() {
-        // Prevent multiple timers from being scheduled
-        guard activityTimer == nil else { dprint("Activity timer is already running."); return }
-        
-        // Schedule the timer
-        activityTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: { _ in
-            self.generateKeyboardEvent()
-        })
-        
-        // Immediately trigger the event
-        generateKeyboardEvent()
-        
-        // Ensure the timer is added to the common run loop mode
-        if let activityTimer {
-            RunLoop.current.add(activityTimer, forMode: .common)
-        }
-        
-        dprint("Activity timer started.")
+        watcher = IdleWatcher(timeout: 240, timeoutHandler: generateKeyboardEvent)
     }
     
-    /// Stops the keyboard event activity by invalidating the timer.
     func stopActivity() {
-        guard let activityTimer else { dprint("No active timer to stop."); return }
-        activityTimer.invalidate()
-        self.activityTimer = nil
-        dprint("Activity timer stopped.")
+        watcher?.stop()
+        watcher = nil
     }
     
     // MARK: - Private Methods
-    /// Generates a keyboard event for the F13 key.
+    /// Generates a keyboard event
     private func generateKeyboardEvent() {
-        let f13KeyCode: CGKeyCode = 105
-        let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: f13KeyCode, keyDown: true)
-        let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: f13KeyCode, keyDown: false)
+        let keyCode: CGKeyCode = 60
+        let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: true)
+        let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: false)
         guard let keyUp, let keyDown else { return
         }
         keyDown.post(tap: .cghidEventTap)
