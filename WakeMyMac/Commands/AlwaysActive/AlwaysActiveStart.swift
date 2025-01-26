@@ -22,10 +22,13 @@ struct AlwaysActiveStart: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Force start if another session is active.")
     var force: Bool = false
     
+    @Flag(name: .shortAndLong, help: "Enable debug mode for additional logging")
+    var debug: Bool = false
+    
     func run() throws {
         if !A11yService.isAccessibilityEnabled() {
-            cprint("AlwaysActive requires accessibility access", .warning)
-            if askForConfirmation("Do you want to open settings?") {
+            cprint("Always Active requires accessibility access to function correctly", .warning)
+            if askForConfirmation("Do you want to open Accessibility settings?") {
                 A11yService.openAccessibilitySettings()
             }
         } else {
@@ -37,23 +40,19 @@ struct AlwaysActiveStart: ParsableCommand {
         setupSignalHandler()
         
         let daemon = DmnService.createBackgroundDaemon()
-        
         daemon.arguments = ["alwaysActive-wake-daemon", "--start"]
-        let pipe = Pipe()
-        daemon.standardOutput = pipe
         
         do {
             try daemon.run()
             
-        #if DEBUG
-            cprint("Always active daemon successfully started with PID: \(daemon.processIdentifier)", .success)
-        #endif
+            dprint("Daemon started with PID: \(daemon.processIdentifier)", debug)
+        
             let session = AlwaysActiveSession(daemonID: daemon.processIdentifier)
             StorService.saveAlwaysActiveSession(session)
             
             RunLoop.main.run()
         } catch {
-            cprint("Failed to start always active session: \(error.localizedDescription)", .error)
+            cprint("Failed to start Always Active session: \(error.localizedDescription)", .error)
         }
     }
     
@@ -62,8 +61,9 @@ struct AlwaysActiveStart: ParsableCommand {
             cprint("Always active session started successfully!", .success)
             killSelf()
         } _: {
-            cprint("Failed to start always active session.", .error)
-            dprint("Killing deamon")
+            cprint("Failed to start Always Active session.", .error)
+            dprint("Attempting to terminate daemon and clean session", debug)
+            
             StorService.deleteAlwaysActiveSession()
             killSelf()
         }

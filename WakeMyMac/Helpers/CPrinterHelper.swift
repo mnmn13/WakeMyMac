@@ -62,14 +62,18 @@ func cprint(_ message: String, _ state: OutputState) {
     
     // If == success, we don't want to add (:)
     if state != .success {
-        prefix += ":"
+        prefix += ": "
     }
     
-    cprint("\(prefix) \(message)", state.color)
+    cprint("\(prefix)\(message)", state.color)
 }
 
 // Debug print
-func dprint(_ message: String) {
+func dprint(_ message: String,_ debugFlag: Bool = false) {
+    if debugFlag {
+        cprint(message, .debug)
+        return
+    }
 #if DEBUG
     cprint(message, .debug)
 #endif

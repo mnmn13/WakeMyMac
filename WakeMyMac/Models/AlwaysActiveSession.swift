@@ -14,13 +14,10 @@
 
 import Foundation
 
-struct AlwaysActiveSession: Codable {
-    
+struct AlwaysActiveSession: Session {
     var daemonID: Int32
-    
     let startTime: Date
-    
-    //TODO: Duration
+    var duration: TimeInterval?
     
     init(daemonID: Int32, startTime: Date = Date()) {
         self.daemonID = daemonID

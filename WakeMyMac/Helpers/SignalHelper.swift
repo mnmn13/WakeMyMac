@@ -18,17 +18,34 @@ enum Signal: Int32 {
     case success = 30 // SIGUSR1
     case failure = 31 // SIGUSR2
     
+    case isActive = 0
+    
     // Soft termination
     case terminate = 15 // SIGTERM
     
     // Force termination
-    case kill = 0 // SIGKILL
+    case kill = 9 // SIGKILL
 }
 
-func send(_ signal: Signal, _ processID: pid_t = getppid()) {
-    kill(processID, signal.rawValue)
+/// Returns 0 if success. -1 if error
+@discardableResult
+func send(_ signal: Signal, _ processID: pid_t = getppid()) -> SignalResult {
+    SignalResult(kill(processID, signal.rawValue))
 }
 
 func killSelf() {
     exit(0)
+}
+
+enum SignalResult {
+    case success
+    case error
+    
+    init(_ signal: Int32) {
+        if signal == 0 {
+            self = .success
+        } else {
+            self = .error
+        }
+    }
 }

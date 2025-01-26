@@ -13,11 +13,9 @@
 // limitations under the License.
 
 import Foundation
-import ArgumentParser
 
-struct AlwaysActiveCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(commandName: "alwaysActive", subcommands: [AlwaysActiveStart.self, AlwaysActiveStop.self, AlwaysActiveStatus.self], aliases: ["aa"])
-    
-    func run() throws {}
-    
+protocol Session: Codable {
+    var daemonID: Int32 { get set }
+    var startTime: Date { get }
+    var duration: TimeInterval? { get }
 }

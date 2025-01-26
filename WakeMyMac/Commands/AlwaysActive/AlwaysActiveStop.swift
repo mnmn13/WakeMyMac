@@ -16,29 +16,31 @@ import Foundation
 import ArgumentParser
 
 struct AlwaysActiveStop: ParsableCommand {
-    static var configuration = CommandConfiguration(commandName: "stop", abstract: "")
+    static var configuration = CommandConfiguration(commandName: "stop", abstract: "Stop an Always Active session")
     
-    @Flag(name: .shortAndLong, help: "")
+    @Flag(name: .shortAndLong, help: "Forcefully terminate the daemon if it cannot be stopped gracefully")
     var force: Bool = false
     
     func run() throws {
         guard let session = StorService.loadAlwaysActiveSession() else {
-            cprint("No active session to stop", .warning)
+            cprint("No Always Active session is currently running", .warning)
             return
         }
         printDebugDaemonStatus(session)
         
-//        if force {
-//            send(.kill, session.daemonID)
-//        } else {
-            send(.terminate, session.daemonID)
-//        }
-        StorService.deleteAlwaysActiveSession()
-        guard !daemonIsActive(session: session) else {
-            cprint("Error, could not stop daemon. Try stop -f", .error)
+        let result: SignalResult
+        if force {
+            result = send(.kill, session.daemonID)
+        } else {
+            result = send(.terminate, session.daemonID)
+        }
+        
+        guard result == .success else {
+            cprint("Failed to stop the daemon. Use '--force' to terminate it", .error)
             return
         }
-        cprint("Daemon stopped successfully", .success)
+        StorService.deleteAlwaysActiveSession()
+        cprint("Always Active session has been successfully stopped", .success)
     }
     
     private func printDebugDaemonStatus(_ session: AlwaysActiveSession) {
