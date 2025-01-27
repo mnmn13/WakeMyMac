@@ -39,13 +39,13 @@ final class KeyboardEventService {
     // MARK: - Private Methods
     /// Generates a keyboard event
     private func generateKeyboardEvent() {
-        let keyCode: CGKeyCode = 60
+        let keyCode: CGKeyCode = 60 // Left Shift
         let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: true)
         let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: false)
         guard let keyUp, let keyDown else { return
         }
         keyDown.post(tap: .cghidEventTap)
         keyUp.post(tap: .cghidEventTap)
-        dprint("F13 triggered.")
+        dprint("Left Shift triggered.")
     }
 }
