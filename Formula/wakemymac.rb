@@ -3,7 +3,7 @@ class Wakemymac < Formula
   homepage "https://github.com/mnmn13/WakeMyMac"
   url "https://github.com/mnmn13/WakeMyMac/releases/download/v1.0.1/WakeMyMac_1.0.1.tar.gz"
   sha256 "b383afc66b785cc055297f6a706f5152ccce40942a6adf806a8b5b8896415e21"
-  license "MIT"
+  license "Apache-2.0"
   version "1.0.1"
 
   def install

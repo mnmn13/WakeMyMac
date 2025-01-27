@@ -15,6 +15,7 @@
 import Foundation
 import ArgumentParser
 import IOKit.pwr_mgt
+import Cocoa
 
 final class WakeDaemon: WakeSessionManager, ParsableCommand {
     static let configuration = CommandConfiguration(commandName: "wake-daemon",
@@ -27,6 +28,7 @@ final class WakeDaemon: WakeSessionManager, ParsableCommand {
     var duration: TimeInterval?
     
     private var assertionID: IOPMAssertionID = 0
+    
     
     func run() throws {
         guard savedSessionExists() else {
@@ -71,8 +73,12 @@ final class WakeDaemon: WakeSessionManager, ParsableCommand {
         RunLoop.main.run()
     }
     
-    func stopWakeSession() {
+    private func stopWakeSession() {
         releaseSession()
         killSelf()
+    }
+    
+    private func startAlwaysActive() {
+        
     }
 }

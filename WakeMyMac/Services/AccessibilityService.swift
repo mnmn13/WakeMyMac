@@ -13,39 +13,22 @@
 // limitations under the License.
 
 import Foundation
+import Cocoa
 
-enum Signal: Int32 {
-    case success = 30 // SIGUSR1
-    case failure = 31 // SIGUSR2
-    
-    case isActive = 0
-    
-    // Soft termination
-    case terminate = 15 // SIGTERM
-    
-    // Force termination
-    case kill = 9 // SIGKILL
-}
+let A11yService = AccessibilityService.shared
 
-/// Returns 0 if success. -1 if error
-@discardableResult
-func send(_ signal: Signal, _ processID: pid_t = getppid()) -> SignalResult {
-    SignalResult(kill(processID, signal.rawValue))
-}
-
-func killSelf() {
-    exit(0)
-}
-
-enum SignalResult {
-    case success
-    case error
+final class AccessibilityService {
     
-    init(_ signal: Int32) {
-        if signal == 0 {
-            self = .success
-        } else {
-            self = .error
-        }
+    static let shared = AccessibilityService()
+    
+    private init() {}
+    
+    func isAccessibilityEnabled() -> Bool {
+        AXIsProcessTrusted()
+    }
+    
+    func openAccessibilitySettings() {
+        guard let url = URL(string: Constants.accessibilitySettingsURL.value) else { return }
+        NSWorkspace.shared.open(url)
     }
 }

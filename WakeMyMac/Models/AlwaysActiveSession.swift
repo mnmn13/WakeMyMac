@@ -14,18 +14,13 @@
 
 import Foundation
 
-enum Constants: String {
-    case wakeSession
-    case alwaysActiveSession
-    case wakeConfig
+struct AlwaysActiveSession: Session {
+    var daemonID: Int32
+    let startTime: Date
+    var duration: TimeInterval?
     
-    case assertionName = "WakeMyMac"
-    
-    case accessibilitySettingsURL = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-    
-    // Logger
-    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
-    case loggerCategory = "main"
-    
-    var value: String { rawValue }
+    init(daemonID: Int32, startTime: Date = Date()) {
+        self.daemonID = daemonID
+        self.startTime = startTime
+    }
 }

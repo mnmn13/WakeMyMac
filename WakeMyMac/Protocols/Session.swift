@@ -14,18 +14,8 @@
 
 import Foundation
 
-enum Constants: String {
-    case wakeSession
-    case alwaysActiveSession
-    case wakeConfig
-    
-    case assertionName = "WakeMyMac"
-    
-    case accessibilitySettingsURL = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-    
-    // Logger
-    case loggerSubsystem = "com.NikitaMoshyn.WakeMyMac"
-    case loggerCategory = "main"
-    
-    var value: String { rawValue }
+protocol Session: Codable {
+    var daemonID: Int32 { get set }
+    var startTime: Date { get }
+    var duration: TimeInterval? { get }
 }
