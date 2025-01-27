@@ -46,6 +46,6 @@ final class KeyboardEventService {
         }
         keyDown.post(tap: .cghidEventTap)
         keyUp.post(tap: .cghidEventTap)
-        dprint("Left Shift triggered.")
+//        dprint("Left Shift triggered.")
     }
 }
