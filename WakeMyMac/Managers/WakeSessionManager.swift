@@ -62,6 +62,8 @@ class WakeSessionManager {
     func sessionIsActive() -> Bool {
         let status = session != nil
         logger.info("Session status: \(status)")
+        guard let daemonID = session?.deamonID else { return false }
+        guard send(.isActive, daemonID) == .success else { return false }
         return status
     }
     
